@@ -747,3 +747,726 @@ button {
         transform: translateY(100vh);
     }
 }
+/* Sequential sliding photo animations */
+.sliding-photo-sequential {
+    position: absolute;
+    pointer-events: none;
+    max-width: 200px;
+    will-change: transform, opacity;
+}
+
+.photo-container-sequential {
+    position: relative;
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.4),
+        0 5px 15px rgba(236, 72, 153, 0.3),
+        inset 0 0 0 4px rgba(255, 255, 255, 0.9);
+    background: white;
+    transform: rotate(0deg);
+    transition: all 0.3s ease;
+}
+
+.sliding-photo-sequential:nth-child(even) .photo-container-sequential {
+    transform: rotate(2deg);
+}
+
+.sliding-photo-sequential:nth-child(odd) .photo-container-sequential {
+    transform: rotate(-2deg);
+}
+
+.sliding-photo-sequential img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    border-radius: 12px;
+    filter: brightness(1.1) contrast(1.05) saturate(1.15);
+    min-height: 200px;
+    max-height: 300px;
+}
+
+.photo-number {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    background: linear-gradient(135deg, #ec4899, #8b5cf6);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    border: 3px solid white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.photo-heart {
+    position: absolute;
+    bottom: -8px;
+    right: -8px;
+    background: rgba(220, 38, 127, 0.9);
+    border-radius: 50%;
+    padding: 6px;
+    border: 2px solid white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+}
+
+/* Responsive sizing */
+@media (max-width: 768px) {
+    .sliding-photo-sequential {
+        max-width: 150px;
+    }
+    
+    .sliding-photo-sequential img {
+        min-height: 150px;
+        max-height: 220px;
+    }
+    
+    .photo-number {
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sliding-photo-sequential {
+        max-width: 120px;
+    }
+    
+    .sliding-photo-sequential img {
+        min-height: 120px;
+        max-height: 180px;
+    }
+    
+    .photo-number {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+    }
+}
+
+/* Letter container with better background */
+.letter-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.letter-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+.letter-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #f9a8d4, #c084fc);
+    border-radius: 10px;
+    box-shadow: inset 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.letter-scroll::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #f472b6, #a855f7);
+}
+
+/* Enhanced letter typography */
+.font-cute {
+    font-family: "Shantell Sans", cursive;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    line-height: 1.7;
+}
+
+/* Prevent any CSS animation conflicts */
+.sliding-photo-sequential * {
+    animation: none !important;
+}
+
+/* Ensure photos don't interfere with letter interaction */
+.sliding-photo-sequential {
+    z-index: 1 !important;
+}
+
+/* Letter container should be above photos */
+.max-w-4xl {
+    position: relative;
+    z-index: 50 !important;
+}
+
+/* Special effects for photo sequence indication */
+@keyframes pulse-ring {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+.photo-number::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border: 2px solid #ec4899;
+    border-radius: 50%;
+    animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+    opacity: 0.7;
+}
+
+/* Improved hover effects for development/testing */
+.sliding-photo-sequential:hover .photo-container-sequential {
+    transform: scale(1.05) rotate(0deg) !important;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.5),
+        0 5px 15px rgba(236, 72, 153, 0.4),
+        inset 0 0 0 4px rgba(255, 255, 255, 1);
+}
+
+/* Ensure smooth performance */
+.sliding-photo-sequential {
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+/* Working photo container styles */
+.photo-container-working {
+    position: relative;
+    width: 180px;
+    height: auto;
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    border: 4px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 
+        0 10px 25px rgba(0, 0, 0, 0.3),
+        0 5px 15px rgba(236, 72, 153, 0.2),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.photo-container-working img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    min-height: 200px;
+    max-height: 280px;
+    border-radius: 8px;
+}
+
+.photo-number-working {
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    background: linear-gradient(135deg, #ec4899, #8b5cf6);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    border: 3px solid white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+/* Ensure photos are visible and above background */
+.fixed.pointer-events-none.z-10 {
+    z-index: 15 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .photo-container-working {
+        width: 140px;
+    }
+    
+    .photo-container-working img {
+        min-height: 160px;
+        max-height: 220px;
+    }
+    
+    .photo-number-working {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+        top: -10px;
+        left: -10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .photo-container-working {
+        width: 110px;
+    }
+    
+    .photo-container-working img {
+        min-height: 130px;
+        max-height: 180px;
+    }
+    
+    .photo-number-working {
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+        top: -8px;
+        left: -8px;
+    }
+}
+
+/* Override any conflicting styles */
+.sliding-photo-enhanced,
+.sliding-photo-sequential {
+    display: none !important;
+}
+
+/* Ensure letter container stays above photos but photos are still visible */
+.max-w-4xl {
+    position: relative;
+    z-index: 20 !important;
+}
+
+/* Letter scroll styles */
+.letter-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.letter-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+.letter-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #f9a8d4, #c084fc);
+    border-radius: 10px;
+    box-shadow: inset 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.letter-scroll::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #f472b6, #a855f7);
+}
+
+/* Font styling */
+.font-cute {
+    font-family: "Shantell Sans", cursive;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    line-height: 1.7;
+}
+
+/* Test styles for debugging - remove in production */
+.debug-photo-info {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    z-index: 1000;
+}
+
+/* Force visibility for testing */
+.photo-container-working {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+/* Natural aspect ratio photo container - optimized for infinite looping */
+.photo-container-natural {
+    position: relative;
+    width: auto;
+    max-width: 200px;
+    min-width: 120px;
+    height: auto;
+    border-radius: 15px;
+    overflow: hidden;
+    background: white;
+    border: 4px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.3),
+        0 5px 15px rgba(236, 72, 153, 0.25),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    /* Performance optimizations for infinite animation */
+    will-change: transform;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+.photo-container-natural img {
+    width: 100%;
+    height: auto; /* This preserves natural aspect ratio */
+    display: block;
+    object-fit: contain; /* Changed from cover to contain to prevent cropping */
+    border-radius: 12px;
+    /* Remove fixed height constraints to allow natural sizing */
+}
+
+.photo-number-natural {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    background: linear-gradient(135deg, #ec4899, #8b5cf6);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    border: 3px solid white;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+.photo-side-indicator {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    background: linear-gradient(135deg, #06b6d4, #3b82f6);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    border: 3px solid white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 10;
+}
+
+/* Ensure photos are visible and properly layered - infinite optimization */
+.fixed.pointer-events-none.z-10 {
+    z-index: 15 !important;
+    /* GPU acceleration for smooth infinite animations */
+    transform: translateZ(0);
+    will-change: transform, opacity;
+}
+
+/* Responsive adjustments while maintaining aspect ratio */
+@media (max-width: 768px) {
+    .photo-container-natural {
+        max-width: 160px;
+        min-width: 100px;
+    }
+    
+    .photo-number-natural {
+        width: 32px;
+        height: 32px;
+        font-size: 13px;
+        top: -12px;
+        left: -12px;
+    }
+    
+    .photo-side-indicator {
+        width: 28px;
+        height: 28px;
+        font-size: 11px;
+        top: -12px;
+        right: -12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .photo-container-natural {
+        max-width: 130px;
+        min-width: 80px;
+    }
+    
+    .photo-number-natural {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+        top: -10px;
+        left: -10px;
+    }
+    
+    .photo-side-indicator {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+        top: -10px;
+        right: -10px;
+    }
+}
+
+/* Override any conflicting photo styles */
+.sliding-photo-enhanced,
+.sliding-photo-sequential,
+.photo-container-working {
+    display: none !important;
+}
+
+/* Ensure letter container stays properly layered */
+.max-w-4xl {
+    position: relative;
+    z-index: 20 !important;
+}
+
+/* Letter scroll styles */
+.letter-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.letter-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+.letter-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #f9a8d4, #c084fc);
+    border-radius: 10px;
+    box-shadow: inset 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.letter-scroll::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #f472b6, #a855f7);
+}
+
+/* Font styling */
+.font-cute {
+    font-family: "Shantell Sans", cursive;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    line-height: 1.7;
+}
+
+/* Force proper aspect ratio preservation */
+.photo-container-natural img {
+    max-width: 100%;
+    height: auto !important;
+    min-height: auto !important;
+    object-fit: contain !important;
+}
+
+/* Additional styling for infinite loop performance */
+.photo-container-natural {
+    transition: transform 0.3s ease;
+    /* Prevent memory leaks during infinite animation */
+    contain: layout style paint;
+}
+
+.photo-container-natural:hover {
+    transform: scale(1.02);
+}
+
+/* Ensure no cropping occurs */
+.photo-container-natural {
+    overflow: visible; /* Changed from hidden to visible to show full images */
+    padding: 2px; /* Small padding to ensure borders don't cut off image */
+}
+
+.photo-container-natural img {
+    border-radius: 8px;
+    background: white; /* White background in case of transparency */
+    /* Optimize for infinite scrolling */
+    image-rendering: -webkit-optimize-contrast;
+}
+
+/* Performance optimization for infinite animations */
+@media (prefers-reduced-motion: no-preference) {
+    .photo-container-natural {
+        animation-fill-mode: forwards;
+    }
+}
+
+/* Memory management for long-running animations */
+.fixed.pointer-events-none.z-10 {
+    /* Clean up completed animations */
+    animation-fill-mode: none;
+}
+/* Simplified photo container for reliable sliding */
+.photo-container-natural {
+    position: relative;
+    width: auto;
+    max-width: 200px;
+    min-width: 120px;
+    height: auto;
+    border-radius: 15px;
+    overflow: hidden;
+    background: white;
+    border: 4px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.3),
+        0 5px 15px rgba(236, 72, 153, 0.25),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.photo-container-natural img {
+    width: 100%;
+    height: auto; /* This preserves natural aspect ratio */
+    display: block;
+    object-fit: contain; /* Changed from cover to contain to prevent cropping */
+    border-radius: 12px;
+    /* Remove fixed height constraints to allow natural sizing */
+}
+
+.photo-number-natural {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    background: linear-gradient(135deg, #ec4899, #8b5cf6);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    border: 3px solid white;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+.photo-side-indicator {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    background: linear-gradient(135deg, #06b6d4, #3b82f6);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    border: 3px solid white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 10;
+}
+
+/* Simplified photo positioning for reliable animation */
+.fixed.pointer-events-none.z-10 {
+    z-index: 15 !important;
+}
+
+/* Responsive adjustments while maintaining aspect ratio */
+@media (max-width: 768px) {
+    .photo-container-natural {
+        max-width: 160px;
+        min-width: 100px;
+    }
+    
+    .photo-number-natural {
+        width: 32px;
+        height: 32px;
+        font-size: 13px;
+        top: -12px;
+        left: -12px;
+    }
+    
+    .photo-side-indicator {
+        width: 28px;
+        height: 28px;
+        font-size: 11px;
+        top: -12px;
+        right: -12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .photo-container-natural {
+        max-width: 130px;
+        min-width: 80px;
+    }
+    
+    .photo-number-natural {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+        top: -10px;
+        left: -10px;
+    }
+    
+    .photo-side-indicator {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+        top: -10px;
+        right: -10px;
+    }
+}
+
+/* Override any conflicting photo styles */
+.sliding-photo-enhanced,
+.sliding-photo-sequential,
+.photo-container-working {
+    display: none !important;
+}
+
+/* Ensure letter container stays properly layered */
+.max-w-4xl {
+    position: relative;
+    z-index: 20 !important;
+}
+
+/* Letter scroll styles */
+.letter-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.letter-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+.letter-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #f9a8d4, #c084fc);
+    border-radius: 10px;
+    box-shadow: inset 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.letter-scroll::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #f472b6, #a855f7);
+}
+
+/* Font styling */
+.font-cute {
+    font-family: "Shantell Sans", cursive;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    line-height: 1.7;
+}
+
+/* Force proper aspect ratio preservation */
+.photo-container-natural img {
+    max-width: 100%;
+    height: auto !important;
+    min-height: auto !important;
+    object-fit: contain !important;
+}
+
+/* Basic styling for reliable photo display */
+.photo-container-natural {
+    transition: transform 0.3s ease;
+}
+
+.photo-container-natural:hover {
+    transform: scale(1.02);
+}
+
+.photo-container-natural {
+    overflow: visible;
+    padding: 2px;
+}
+
+.photo-container-natural img {
+    border-radius: 8px;
+    background: white;
+}
