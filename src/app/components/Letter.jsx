@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Mail, Heart, Sparkles, RotateCcw } from "lucide-react"
 import confetti from "canvas-confetti"
@@ -38,9 +38,9 @@ const SlidingImage = ({ src, isLeft, index, delay, side }) => {
                 rotate: isLeft ? [3, 0, 0, -2] : [-3, 0, 0, 2]
             }}
             transition={{ 
-                duration: 8, // Reduced duration for visible movement
-                ease: "linear", // Back to linear for consistent sliding
-                type: "tween" // Ensure smooth tween animation
+                duration: 8, 
+                ease: "linear",
+                type: "tween"
             }}
         >
             <div className="photo-container-natural">
@@ -68,41 +68,38 @@ export default function Letter() {
     const [photoSequenceStarted, setPhotoSequenceStarted] = useState(false)
     const [leftPhotoCount, setLeftPhotoCount] = useState(0)
     const [rightPhotoCount, setRightPhotoCount] = useState(0)
+    const typingIntervalRef = useRef(null);
+    const photoIntervalRef = useRef(null);
 
-    // Generate photo data with 4-second intervals and infinite looping
     const generatePhotoData = () => {
         const leftSidePhotos = []
         const rightSidePhotos = []
         
-        // Left side: photos 1-18 (forward order) - infinite loop
-        for (let cycle = 0; cycle < 1000; cycle++) { // Generate many cycles for infinite effect
+        for (let cycle = 0; cycle < 5; cycle++) { 
             for (let i = 1; i <= 18; i++) {
                 leftSidePhotos.push({
                     id: `left-${i}-cycle-${cycle}`,
                     src: `/images/l${i}.jpg`,
                     isLeft: true,
                     index: (cycle * 18) + (i - 1),
-                    delay: ((cycle * 18) + (i - 1)) * 4000, // Every 4 seconds for left side
+                    delay: ((cycle * 18) + (i - 1)) * 4000,
                     displayNumber: i,
                     side: 'L',
-                    cycle: cycle
                 })
             }
         }
         
-        // Right side: photos 19-36 but in reverse order (36, 35, 34... 19) - infinite loop
-        for (let cycle = 0; cycle < 1000; cycle++) { // Generate many cycles for infinite effect
+        for (let cycle = 0; cycle < 5; cycle++) {
             for (let i = 0; i < 18; i++) {
-                const photoNumber = 36 - i // This gives us 36, 35, 34... 19
+                const photoNumber = 36 - i
                 rightSidePhotos.push({
                     id: `right-${photoNumber}-cycle-${cycle}`,
                     src: `/images/l${photoNumber}.jpg`,
                     isLeft: false,
-                    index: (cycle * 18) + 18 + i, // Continue indexing after left side
-                    delay: ((cycle * 18) + i) * 4000, // Same timing as left side (every 4 seconds)
+                    index: (cycle * 18) + 18 + i,
+                    delay: ((cycle * 18) + i) * 4000,
                     displayNumber: photoNumber,
                     side: 'R',
-                    cycle: cycle
                 })
             }
         }
@@ -112,68 +109,79 @@ export default function Letter() {
 
     const letterPhotos = generatePhotoData()
 
-    const letterText = `My dear RUBA,
+    const letterText = `My Dear RUBA,
 
-On this very special day, I want you to know how incredibly grateful I am to have you in my life. Your birthday isn't just a celebration of another year - it's a celebration of all the joy, laughter, and beautiful memories you bring to this world.
+On this special day, I find myself searching for words that can truly capture the depth of my admiration for you. Your birthday is not just a celebration of another year, but a celebration of the incredible person you are, and the beautiful soul that brightens my world.
 
-You have this amazing ability to light up any room you enter, to make people smile even on their darkest days, and to spread kindness wherever you go. Your heart is pure gold, and your spirit is absolutely infectious.
+You possess a rare and captivating grace, an ability to light up any room with your presence, and a kindness that touches everyone you meet. Your heart is a treasure, and your spirit is an inspiration. It's not just your beauty that I admire, but the incredible strength and passion that shine from within.
 
-Thank you for being the wonderful, amazing, absolutely fantastic person that you are. What's even more admirable is that you want to love it.
+Thank you for being the wonderful, amazing, and absolutely fantastic person that you are. The world is so much brighter and more beautiful because you're in it. To love you is a privilege, and to be loved by you is my greatest treasure.
 
-Happy Birthday, beautiful soul! ❤️
+Happy Birthday, my beautiful love! ❤
 
-With all my love and warmest wishes,
-Forever Yours 💕`
+With all my heart and endless love,
+Forever Yours,
+SAKTHIPRAKASH`
 
-    const handleOpenLetter = () => {
-        setIsOpen(true)
+    const startPhotoSequence = () => {
         setPhotoSequenceStarted(true)
         
-        // Update counters for both sides simultaneously with 4-second intervals
         let leftCount = 0
         let rightCount = 0
         
-        const leftCounterInterval = setInterval(() => {
+        if (photoIntervalRef.current) clearInterval(photoIntervalRef.current);
+
+        photoIntervalRef.current = setInterval(() => {
             leftCount++
-            setLeftPhotoCount(leftCount)
-            // Don't clear interval - let it run infinitely for looping effect
-        }, 4000) // Every 4 seconds
-        
-        const rightCounterInterval = setInterval(() => {
             rightCount++
+            setLeftPhotoCount(leftCount)
             setRightPhotoCount(rightCount)
-            // Don't clear interval - let it run infinitely for looping effect
-        }, 4000) // Every 4 seconds, same as left
+        }, 4000)
+    }
+    
+    const startTyping = () => {
+        let index = 0
         
+        if (typingIntervalRef.current) clearInterval(typingIntervalRef.current);
+
+        typingIntervalRef.current = setInterval(() => {
+            if (index < letterText.length) {
+                setCurrentText(letterText.slice(0, index + 1))
+                index++
+            } else {
+                clearInterval(typingIntervalRef.current)
+                setShowCursor(false)
+                confetti({
+                    particleCount: 50,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ["#ff69b4", "#ff1493", "#9370db", "#8a2be2", "#ffd700"],
+                })
+            }
+        }, 45) 
+    }
+
+    const handleOpenLetter = () => {
+        setIsOpen(true)
+        startPhotoSequence();
         setTimeout(() => {
             setShowText(true)
-        }, 8000) // Start showing text after 8 seconds (2 photos per side)
+        }, 8000)
     }
 
     useEffect(() => {
         if (showText) {
-            let index = 0
-            const timer = setInterval(() => {
-                if (index < letterText.length) {
-                    setCurrentText(letterText.slice(0, index + 1))
-                    index++
-                } else {
-                    clearInterval(timer)
-                    setShowCursor(false)
-                    confetti({
-                        particleCount: 50,
-                        spread: 70,
-                        origin: { y: 0.6 },
-                        colors: ["#ff69b4", "#ff1493", "#9370db", "#8a2be2", "#ffd700"],
-                    })
-                }
-            }, 30) // Back to normal typing speed (was 25ms)
-
-            return () => clearInterval(timer)
+            startTyping();
         }
-    }, [showText, letterText])
+        return () => {
+            if (typingIntervalRef.current) clearInterval(typingIntervalRef.current);
+            if (photoIntervalRef.current) clearInterval(photoIntervalRef.current);
+        }
+    }, [showText])
 
     const handleReset = () => {
+        if (typingIntervalRef.current) clearInterval(typingIntervalRef.current);
+        if (photoIntervalRef.current) clearInterval(photoIntervalRef.current);
         setIsOpen(false)
         setShowText(false)
         setCurrentText("")
@@ -190,13 +198,12 @@ Forever Yours 💕`
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
         >
-            {/* Sliding photos - both sides start simultaneously */}
             {photoSequenceStarted && letterPhotos.map((photo) => (
                 <SlidingImage
                     key={photo.id}
                     src={photo.src}
                     isLeft={photo.isLeft}
-                    index={photo.index}
+                    index={photo.displayNumber - 1}
                     delay={photo.delay}
                     side={photo.side}
                 />
@@ -285,7 +292,7 @@ Forever Yours 💕`
                                     </motion.div>
                                 </div>
 
-                                <div className="min-h-72 max-h-72 overflow-y-auto text-gray-700 leading-relaxed">
+                                <div className="min-h-72 max-h-72 overflow-y-auto text-gray-700 leading-relaxed letter-scroll">
                                     {showText && (
                                         <motion.div 
                                             initial={{ opacity: 0 }} 
@@ -323,7 +330,6 @@ Forever Yours 💕`
                                     </motion.div>
                                 )}
 
-                                {/* Infinite counters for both sides */}
                                 {photoSequenceStarted && (
                                     <div className="absolute -top-3 -right-3 flex gap-2">
                                         <motion.div
@@ -345,7 +351,6 @@ Forever Yours 💕`
                                     </div>
                                 )}
 
-                                {/* Decorative elements */}
                                 <div className="absolute top-4 left-4">
                                     <Sparkles className="w-6 h-6 text-yellow-500" />
                                 </div>
@@ -363,17 +368,7 @@ Forever Yours 💕`
                     </AnimatePresence>
                 </motion.div>
             </div>
-
-            {/* Debug info for infinite looping */}
-            {process.env.NODE_ENV === 'development' && photoSequenceStarted && (
-                <div className="fixed bottom-4 left-4 bg-black/70 text-white p-3 rounded text-xs">
-                    Photos Started: {photoSequenceStarted ? 'Yes' : 'No'}<br/>
-                    Left: {leftPhotoCount} | Right: {rightPhotoCount}<br/>
-                    Current Left Image: {((leftPhotoCount - 1) % 18) + 1}<br/>
-                    Current Right Image: {36 - ((rightPhotoCount - 1) % 18)}<br/>
-                    Status: Infinite Loop Active
-                </div>
-            )}
         </motion.div>
     )
 }
+

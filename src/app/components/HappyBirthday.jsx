@@ -1,15 +1,60 @@
 "use client"
 
-import { motion } from "motion/react"
+import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { useEffect, useState } from "react"
+
+// New component for balloons that fly upwards
+const FlyingBalloon = ({ delay, duration, color }) => {
+    // Randomize horizontal start and end positions for a natural drift
+    const xStart = Math.random() * 100;
+    const xEnd = xStart + (Math.random() - 0.5) * 40;
+
+    return (
+        <motion.div
+            className="absolute pointer-events-none"
+            style={{
+                left: `${xStart}vw`,
+                bottom: "-200px", // Start from just below the viewport
+                zIndex: 1,
+            }}
+            initial={{ y: 0 }}
+            animate={{
+                y: `-${window.innerHeight + 200}px`, // Animate to just above the viewport
+                x: [`${xStart}vw`, `${xEnd}vw`],
+            }}
+            transition={{
+                delay,
+                duration,
+                repeat: Infinity,
+                ease: "linear",
+            }}
+        >
+            {/* The visual representation of the balloon */}
+            <div className="relative w-[70px] h-[80px]">
+                <div
+                    className={`w-full h-full bg-gradient-to-b ${color} relative shadow-md`}
+                    style={{ borderRadius: "75% 75% 80% 80% / 75% 75% 80% 80%" }}
+                >
+                    <div className="absolute top-2 left-2 w-3 h-5 bg-white/50 rounded-full blur-[1px]" />
+                    <div className="absolute bottom-2 left-3 w-2 h-1 bg-white/30 rounded-full blur-[0.5px]" />
+                </div>
+                <div
+                    className={`absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-[12px] h-[12px] bg-gradient-to-b ${color}`}
+                    style={{ clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)" }}
+                />
+            </div>
+        </motion.div>
+    );
+};
+
 
 export default function HappyBirthday({ onNext }) {
     const [balloonCount, setBalloonCount] = useState(5);
 
     useEffect(() => {
         const updateBalloonCount = () => {
-            setBalloonCount(window.innerWidth >= 768 ? 20 : 5);
+            setBalloonCount(window.innerWidth >= 768 ? 20 : 15);
         };
 
         updateBalloonCount();
@@ -18,7 +63,7 @@ export default function HappyBirthday({ onNext }) {
         return () => window.removeEventListener('resize', updateBalloonCount);
     }, []);
 
-    // Balloon Component
+    // Balloon Component (for the bottom row that bobs)
     const Balloon = ({ color, delay = 0, x = 0 }) => (
         <motion.div
             className="absolute pointer-events-none"
@@ -173,6 +218,16 @@ export default function HappyBirthday({ onNext }) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8 }}
         >
+            {/* Flying balloons */}
+             {Array.from({ length: 25 }).map((_, i) => (
+                <FlyingBalloon
+                    key={`flying-${i}`}
+                    color={balloonColors[i % balloonColors.length]}
+                    delay={i * 0.5}
+                    duration={10 + Math.random() * 5}
+                />
+            ))}
+
             {/* balloons at bottom*/}
             {Array.from({ length: balloonCount }, (_, i) => {
                 const colorIndex = i % balloonColors.length;
@@ -255,3 +310,4 @@ export default function HappyBirthday({ onNext }) {
         </motion.div>
     )
 }
+
