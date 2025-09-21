@@ -1,9 +1,9 @@
 "use client"
 
-import { motion } from "motion/react"
+import { motion } from "framer-motion"
 import { Camera, ArrowRight } from "lucide-react"
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { EffectCube, Pagination } from 'swiper/modules'
+import { EffectCube, Pagination, Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/effect-cube'
 import 'swiper/css/pagination'
@@ -15,6 +15,8 @@ export default function PhotoGallery({ onNext }) {
         { id: 2, src: "/images/2.jpg" },
         { id: 3, src: "/images/3.jpg" },
         { id: 4, src: "/images/4.jpg" },
+        { id: 5, src: "/images/5.jpg" },
+        { id: 6, src: "/images/6.jpg" },
     ]
 
     return (
@@ -43,9 +45,9 @@ export default function PhotoGallery({ onNext }) {
                 </motion.div>
 
                 <h1 className="text-4xl md:text-6xl py-1 md:py-2 font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 mb-6">
-                Moments with You 
+                Moments with You
                 </h1>
-                <p className="text-xl text-purple-300">Beautiful moments with Madam Jii 📸</p>
+                <p className="text-xl text-purple-300">Beautiful moments with you 📸</p>
             </motion.div>
 
             {/* Cube Gallery */}
@@ -60,7 +62,13 @@ export default function PhotoGallery({ onNext }) {
                         shadowScale: 0.94,
                     }}
                     pagination={true}
-                    modules={[EffectCube, Pagination]}
+                    modules={[EffectCube, Pagination, Autoplay]}
+                    autoplay={{
+                      delay: 1500,
+                      disableOnInteraction: false,
+                      reverseDirection: false,
+                    }}
+                    loop={true}
                     className="mySwiper h-[350px] md:h-[450px]" // adjust height as needed
                 >
                     {photos.map((photo, index) => (

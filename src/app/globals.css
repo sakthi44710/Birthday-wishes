@@ -690,3 +690,60 @@ button {
     border-color: rgb(228, 228, 228);
   }
 }
+/* ... (existing styles) */
+
+.letter-swiper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.letter-swiper .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-frame {
+    width: 150px;
+    height: 150px;
+    border: 8px solid white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    animation: slide-down 10s linear infinite;
+    opacity: 0.3;
+}
+/* ... (existing styles) */
+
+/* ... (existing styles) */
+
+/* ... (existing styles) */
+
+/* ... (existing styles) */
+
+.sliding-photo {
+    position: absolute;
+    transform: translateY(-100vh);
+    animation: slide-down 72s linear infinite; /* Increased duration for one-by-one effect */
+    z-index: 50;
+    opacity: 1;
+    pointer-events: none;
+    max-width: 150px;
+}
+
+.sliding-photo img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 4px solid white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+@keyframes slide-down {
+    0% {
+        transform: translateY(-100vh);
+    }
+    100% {
+        transform: translateY(100vh);
+    }
+}

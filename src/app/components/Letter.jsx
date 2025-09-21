@@ -1,9 +1,22 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "motion/react"
+import { motion, AnimatePresence } from "framer-motion"
 import { Mail, Heart, Sparkles, RotateCcw } from "lucide-react"
 import confetti from "canvas-confetti"
+
+const SlidingImage = ({ src, animationDelay, left }) => (
+    <motion.div
+        className="sliding-photo"
+        style={{
+            left: `${left}%`,
+            animationDelay,
+        }}
+    >
+        <img src={src} alt="" />
+    </motion.div>
+);
+
 
 export default function Letter() {
     const [isOpen, setIsOpen] = useState(false)
@@ -11,18 +24,29 @@ export default function Letter() {
     const [currentText, setCurrentText] = useState("")
     const [showCursor, setShowCursor] = useState(true)
 
-    const letterText = `My Dearest Madam Jii,
+    // Generate photo data, alternating left and right
+    const letterPhotos = Array.from({ length: 36 }, (_, i) => {
+        const isLeft = i % 2 === 0;
+        return {
+            id: i + 1,
+            src: `/images/l${i + 1}.jpg`,
+            left: isLeft ? 5 : 85, // Position on the left or right
+        };
+    });
+
+
+    const letterText = `My dear RUBA,
 
 On this very special day, I want you to know how incredibly grateful I am to have you in my life. Your birthday isn't just a celebration of another year - it's a celebration of all the joy, laughter, and beautiful memories you bring to this world.
 
 You have this amazing ability to light up any room you enter, to make people smile even on their darkest days, and to spread kindness wherever you go. Your heart is pure gold, and your spirit is absolutely infectious.
 
-Thank you for being the wonderful, amazing, absolutely fantastic person that you are. The world is so much brighter because you're in it.
+Thank you for being the wonderful, amazing, absolutely fantastic person that you are. What's even more admirable is that you want to love it.
 
-Happy Birthday, beautiful soul! 🎂✨
+Happy Birthday, beautiful soul! 獅笨ｨ
 
 With all my love and warmest wishes,
-Forever Yours 💕`
+Forever Yours 瀦`
 
     useEffect(() => {
         if (showText) {
@@ -69,6 +93,15 @@ Forever Yours 💕`
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
         >
+            {isOpen && letterPhotos.map((photo, index) => (
+                <SlidingImage
+                    key={photo.id}
+                    src={photo.src}
+                    animationDelay={`${index * 3}s`}
+                    left={photo.left}
+                />
+            ))}
+
             <div className="max-w-4xl w-full">
                 <motion.div
                     className="text-center mb-8"
@@ -79,7 +112,7 @@ Forever Yours 💕`
                     <h1 className="text-4xl md:text-6xl py-1 md:py-2 font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 mb-4">
                         A Special Letter
                     </h1>
-                    <p className="text-lg text-purple-300">Just for you, on your special day 💌</p>
+                    <p className="text-lg text-purple-300">Just for you, on your special day 柱</p>
                 </motion.div>
 
                 <motion.div
@@ -139,6 +172,8 @@ Forever Yours 💕`
                                         "linear-gradient(135deg, #fce7f3 0%, #fae8ff 25%, #e0e7ff 50%, #fdf2f8 75%, #fce7f3 100%)",
                                 }}
                             >
+
+
                                 <div className="text-center mb-6">
                                     <motion.div
                                         className="inline-block"
@@ -204,3 +239,4 @@ Forever Yours 💕`
         </motion.div>
     )
 }
+
