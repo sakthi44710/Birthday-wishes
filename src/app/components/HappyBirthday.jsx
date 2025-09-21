@@ -220,7 +220,7 @@ export default function HappyBirthday({ onNext }) {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.3 }}
                 >
-                    Madam Jii<span className="text-white">💕</span>
+                    RUBA<span className="text-white">💕</span>
                 </motion.h2>
 
                 <motion.div
