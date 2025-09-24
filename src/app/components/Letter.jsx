@@ -113,7 +113,9 @@ export default function Letter() {
 
 On this special day, I find myself searching for words that can truly capture the depth of my admiration for you. Your birthday is not just a celebration of another year, but a celebration of the incredible person you are, and the beautiful soul that brightens my world.
 
-You possess a rare and captivating grace, an ability to light up any room with your presence, and a kindness that touches everyone you meet. Your heart is a treasure, and your spirit is an inspiration. It's not just your beauty that I admire, but the incredible strength and passion that shine from within.
+You are the sunrise that chases away my night, the gentle rhythm that makes my heart steady and light. With every smile, you paint the world new, with every word, you prove what is true—that kindness still reigns, that hope still stays, and that beauty exists in the simplest of ways.
+
+So, on this day, I pray your dreams grow wings, that life showers you with its sweetest things. May every wish you've held close take flight, and may every step you take be wrapped in light. The world is a softer, more beautiful place because you are in it—and I am endlessly grateful to walk beneath the same sky as you.
 
 Thank you for being the wonderful, amazing, and absolutely fantastic person that you are. The world is so much brighter and more beautiful because you're in it. To love you is a privilege, and to be loved by you is my greatest treasure.
 
